@@ -1,0 +1,1 @@
+export { TapIfBot } from './bot'
