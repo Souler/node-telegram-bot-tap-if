@@ -23,8 +23,8 @@ export class MongoTapIfRepository {
         const op1 = this.reports.findOneAndUpdate(
             { chatId, message },
             {
-                uniqueUserIds: { $addToSet: userId },
-                taps: { $inc: 1 }
+                $addToSet: { uniqueUserIds: userId },
+                $inc: { taps: 1 }
             },
             { upsert: true }
         )
@@ -34,7 +34,7 @@ export class MongoTapIfRepository {
     }
 
     async getTaps(chatId) {
-        const reports = await this.reports.find({ chatId })
+        const reports = await this.reports.find({ chatId }).toArray()
         return reports.map(report => (
             {
                 chatId: report.chatId,

@@ -50,7 +50,7 @@ export class TapIfBot {
         const taps = await this.db.getTaps(chatId)
         const report = taps.reduce((rep, tapRep) => {
             const { message, taps, uniqueTaps } = tapRep
-            rep += `${ message }: *${ uniqueTaps }*/_${ taps }_  \n`
+            rep += `${ message }: *${ uniqueTaps }*/${ taps }  \n`
             return rep
         }, `Taps report:  \n`)
         logTap(`sending report for ${ chatId }, length: ${ report.length }`)
@@ -63,4 +63,3 @@ export class TapIfBot {
         this.bot.sendMessage(chatId, `I'll keep count of any time a /TapIfSomething is sent on the chat!`)
     }
 }
-

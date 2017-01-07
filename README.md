@@ -16,5 +16,21 @@ $ npm install
 $ npm start
 ```
 
+## Deploying
+### Openshift v2
+```
+$ rhc app create -a tapifbot \
+  -t https://raw.githubusercontent.com/icflorescu/openshift-cartridge-nodejs/master/metadata/manifest.yml \
+  -t mongodb-2.4 \
+  --env NPM_CONFIG_PRODUCTION="true" \
+  --env TELEGRAM_BOT_TOKEN="__YOUR_BOT_TOKEN__" \
+  --env DATABASE_ADAPTER="mongodb" \
+  --env DATABASE_URL="OPENSHIFT_MONGODB_DB_URL" \
+  --env DEBUG="tap-if-bot:*" \
+  --no-git
+$ rhc configure-app -a tapifbot \
+  --no-auto-deploy \
+  --deployment-type binary
+```
 ## License
 MIT

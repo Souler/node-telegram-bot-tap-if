@@ -1,0 +1,18 @@
+#!/bin/sh -e
+export OPENSHIFT_APP_NAME="tapifbot"
+export DEPLOY_TMP_DIR=".deploy"
+export DEPLOY_TARBALL="openshitf-deploy-tapif.tar.gz"
+
+rm -f "$DEPLOY_TARBALL"
+rm -rf "$DEPLOY_TMP_DIR"
+
+npm run build
+mkdir -p "$DEPLOY_TMP_DIR/build-dependencies" \
+	"$DEPLOY_TMP_DIR/dependencies" \
+	"$DEPLOY_TMP_DIR/repo"
+
+cp -r lib/ src/ .openshift/ package.json README.md "$DEPLOY_TMP_DIR/repo"
+tar -czvf "$DEPLOY_TARBALL" -C "$DEPLOY_TMP_DIR/" .
+rhc deploy -a $OPENSHIFT_APP_NAME "$DEPLOY_TARBALL"
+rm -f "$DEPLOY_TARBALL"
+rm -rf "$DEPLOY_TMP_DIR"

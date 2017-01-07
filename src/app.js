@@ -20,4 +20,4 @@ async function start() {
 start()
 .catch(err => console.error(err.stack))
 
-    process.on('unhandledRejection', err => console.log('unhandled', err.stack))
+process.on('unhandledRejection', err => console.log('unhandled', err.stack))
