@@ -48,9 +48,9 @@ export class TapIfBot {
 
     async sendReport(msg) {
         const { chat: { id: chatId } } = msg
-        logTap(`sending report for ${ chatId }, taps in record: ${ taps.length }`)
         const taps = await this.db.getTaps(chatId)
-        if (taps.lenght > 0) {
+        logTap(`sending report for ${ chatId }, taps in record: ${ taps.length }`)
+        if (taps.length > 0) {
             const report = taps.reduce((rep, tapRep) => {
                 const { message, taps, uniqueTaps } = tapRep
                 rep += `${ message }: *${ uniqueTaps }*/${ taps }  \n`
@@ -64,7 +64,7 @@ export class TapIfBot {
 
     async sendHelp(msg) {
         const { chat: { id: chatId } } = msg
-        logTap(`sending report for ${ chatId }, length: ${ report.length }`)
+        logTap(`sending help for ${ chatId }`)
         await this.bot.sendMessage(chatId, `I'll keep count of any time a /TapIfSomething is sent on the chat!`)
     }
 
@@ -72,6 +72,6 @@ export class TapIfBot {
         const { chat: { id: chatId } } = msg
         await this.sendReport(msg)
         await this.db.deleteTaps(chatId)
-        await this.bot.sendMessage(`Deleted all recorded taps!`)
+        await this.bot.sendMessage(chatId, `Deleted all recorded taps!`)
     }
 }
