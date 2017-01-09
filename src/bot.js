@@ -22,8 +22,8 @@ export class TapIfBot {
         this.bot = bot
         this.db = db
         // Setup listeners
-        this.bot.onText(/^\/tapif([a-z0-9\s]+)$/i, (...args) => this.recordTap(...args))
-        this.bot.onText(/^\/taps$/i, (...args) => this.sendReport(...args))
+        this.bot.onText(/^\/tapif([a-z0-9\s]+)/i, (...args) => this.recordTap(...args))
+        this.bot.onText(/^\/taps/i, (...args) => this.sendReport(...args))
         this.bot.onText(/^\/help/, (...args) => this.sendHelp(...args))
     }
 
@@ -53,7 +53,7 @@ export class TapIfBot {
             rep += `${ message }: *${ uniqueTaps }*/${ taps }  \n`
             return rep
         }, `Taps report:  \n`)
-        logTap(`sending report for ${ chatId }, length: ${ report.length }`)
+        logTap(`sending report for ${ chatId }, taps in record: ${ taps.length }`)
         await this.bot.sendMessage(chatId, report, { parse_mode: 'Markdown' })
     }
 
