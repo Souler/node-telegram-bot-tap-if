@@ -48,14 +48,18 @@ export class TapIfBot {
 
     async sendReport(msg) {
         const { chat: { id: chatId } } = msg
-        const taps = await this.db.getTaps(chatId)
-        const report = taps.reduce((rep, tapRep) => {
-            const { message, taps, uniqueTaps } = tapRep
-            rep += `${ message }: *${ uniqueTaps }*/${ taps }  \n`
-            return rep
-        }, `Taps report:  \n`)
         logTap(`sending report for ${ chatId }, taps in record: ${ taps.length }`)
-        await this.bot.sendMessage(chatId, report, { parse_mode: 'Markdown' })
+        const taps = await this.db.getTaps(chatId)
+        if (taps.lenght > 0) {
+            const report = taps.reduce((rep, tapRep) => {
+                const { message, taps, uniqueTaps } = tapRep
+                rep += `${ message }: *${ uniqueTaps }*/${ taps }  \n`
+                return rep
+            }, `Taps report:  \n`)
+            await this.bot.sendMessage(chatId, report, { parse_mode: 'Markdown' })
+        } else
+            await this.bot.sendMessage(chatId, `No taps recorded for this chat`, { parse_mode: 'Markdown' })
+
     }
 
     async sendHelp(msg) {
