@@ -51,4 +51,10 @@ export class MemoryTapIfRepository {
             }
         })
     }
+
+    async deleteTaps(chatId) {
+        chatId = String(chatId)
+        if (this.reports[chatId])
+            this.reports[chatId] = undefined
+    }
 }

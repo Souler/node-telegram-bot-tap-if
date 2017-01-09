@@ -66,4 +66,14 @@ export class TapIfRepository {
     async getTaps(chatId) {
         throw new Error('This is an interface. Use TapIfRepository.build for building an instance!')
     }
+
+    /**
+     * Deletes all the taps on record for the given chatId.
+     *
+     * @param {number} chatId - The id of the chat to delete reports for
+     * @return {Promise} Resolved once its done
+     */
+    async deleteTaps(chatId) {
+        throw new Error('This is an interface. Use TapIfRepository.build for building an instance!')
+    }
 }

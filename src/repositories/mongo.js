@@ -29,7 +29,10 @@ export class MongoTapIfRepository {
             { upsert: true }
         )
         // Just store this for research prupouses
-        const op2 = this.history.insertOne({ chatId, userId, message })
+        const op2 = this.history.insertOne({
+            chatId, userId, message,
+            createdAt: new Date()
+        })
         await Promise.all([ op1, op2 ])
     }
 
@@ -43,5 +46,9 @@ export class MongoTapIfRepository {
                 uniqueTaps: report.uniqueUserIds.length
             }
         ))
+    }
+
+    async deleteTaps(chatId) {
+        await this.reports.deleteMany({ chatId })
     }
 }

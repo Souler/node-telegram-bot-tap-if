@@ -24,6 +24,7 @@ export class TapIfBot {
         // Setup listeners
         this.bot.onText(/^\/tapif([a-z0-9\s]+)/i, (...args) => this.recordTap(...args))
         this.bot.onText(/^\/taps/i, (...args) => this.sendReport(...args))
+        this.bot.onText(/^\/reset/, (...args) => this.resetTaps(...args))
         this.bot.onText(/^\/help/, (...args) => this.sendHelp(...args))
     }
 
@@ -60,6 +61,13 @@ export class TapIfBot {
     async sendHelp(msg) {
         const { chat: { id: chatId } } = msg
         logTap(`sending report for ${ chatId }, length: ${ report.length }`)
-        this.bot.sendMessage(chatId, `I'll keep count of any time a /TapIfSomething is sent on the chat!`)
+        await this.bot.sendMessage(chatId, `I'll keep count of any time a /TapIfSomething is sent on the chat!`)
+    }
+
+    async resetTaps(msg) {
+        const { chat: { id: chatId } } = msg
+        await this.sendReport(msg)
+        await this.db.deleteTaps(chatId)
+        await this.bot.sendMessage(`Deleted all recorded taps!`)
     }
 }
