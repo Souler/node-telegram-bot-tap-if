@@ -17,7 +17,9 @@ $ npm start
 ```
 
 ## Deploying
+
 ### Openshift v2
+First create a gear with the following command:
 ```
 $ rhc app create -a tapifbot \
   -t https://raw.githubusercontent.com/icflorescu/openshift-cartridge-nodejs/master/metadata/manifest.yml \
@@ -32,5 +34,11 @@ $ rhc configure-app -a tapifbot \
   --no-auto-deploy \
   --deployment-type binary
 ```
+
+Then you can deploy the project by running:
+```
+$ npm run deploy
+```
+
 ## License
 MIT
